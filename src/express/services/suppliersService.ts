@@ -1,4 +1,4 @@
-import { SuppliersDb } from "../../database/suppliersDB";
+import { SuppliersDb } from "../../database/suppliersDb";
 
 export class SuppliersService {
   constructor(private suppliersDb: SuppliersDb) {}
