@@ -1,0 +1,48 @@
+
+ 1.
+        GET: get info from DB tables and id reserch.
+        USE GET request
+    To get some info from Tables from DataBase use:
+        /suplliers - you need this route to get info from Suplliers;
+        /products - you need this route to get info from Products;
+        .......
+        At here we have this all routes :
+            [/suplliers, /products, /orders, /employees, /customers].
+    --
+    Pagination: 20 objects for 1 page.
+    --
+    So, in this Project we can use Choose "supllier"/"order".... by ID, example for it:
+        /products/5 - in this example we get only 1 object where we have chosen ID.
+        So, for use choose by id we need to point /"route"/"id".
+    
+ 2. 
+        GET: search from Products and Customers.
+        USE GET request
+    In this Project we have searching from Products and Customers tables.
+    --
+    Pagination: 50 objects for 1 page.
+    --
+    Everything we need for this - it's /search.
+    But we have point as params "q" and "table";
+    "q" - it's the text we are looking for;
+    "table" - it's the DB Table in which we are looking "q";
+    --
+    Products: at here we use search by "ProductID".
+    Customers: at here we use search by "CompanyName, ContactName, ContactTitle and Address".
+    --
+    Example request:
+        /search?q=nna&table=customers
+        at here we must get all clients who have the specified "q" in 
+        "CompanyName, ContactName, ContactTitle and Address", in this case our "q" is 'nna'.
+
+3. 
+        API RESPONSE
+    Every response give to us "server-response, responseQuery(query, timestamp, duration), page, pages, total":
+    "server-response" - response from DataBase.
+    "responseQuery" - here we can see:
+        "query" - sql request from DataBase,
+        "timestamp" - time when was sql request,
+        "duration" - sql query processing time.
+    "page" - еhe page we are on.
+    "pages" - Total available pages what we have.
+    "total" - total objects from used Table.
