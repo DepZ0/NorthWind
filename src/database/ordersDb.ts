@@ -1,16 +1,21 @@
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { orders } from "../schema";
 import { eq, sql } from "drizzle-orm";
+import { Pool } from "pg";
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 export class OrdersDb {
   constructor(private db: NodePgDatabase) {}
+
   public getAllOrders = async (page: number, pageSize: number) => {
     const offset = (page - 1) * pageSize;
 
-    const startDate = new Date().getTime();
     const orders_db = await this.db.select().from(orders).limit(pageSize).offset(offset);
-    const endDate = new Date().getTime();
-    const duration = endDate - startDate;
+
+    const query = await this.db.select().from(orders).limit(pageSize).offset(offset).toSQL();
+    const res = await pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
+    const duration = res.rows[3]["QUERY PLAN"].replace("Execution Time: ", "");
 
     const result = await this.db.select({ count: sql`COUNT(*)` }).from(orders);
     const count = Number(result[0].count);
@@ -24,10 +29,11 @@ export class OrdersDb {
   };
 
   public getOrderById = async (id: number) => {
-    const startDate = new Date().getTime();
     const orderId = await this.db.select().from(orders).where(eq(orders.orderId, id));
-    const endDate = new Date().getTime();
-    const duration = endDate - startDate;
+
+    const query = await this.db.select().from(orders).where(eq(orders.orderId, id)).toSQL();
+    const res = await pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
+    const duration = res.rows[4]["QUERY PLAN"].replace("Execution Time: ", "");
 
     const orderIdQuery = await this.db.select().from(orders).where(eq(orders.orderId, id)).toSQL().sql;
 

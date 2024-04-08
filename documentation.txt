@@ -1,4 +1,7 @@
 
+ Go to /NorthWind and use [npm run start] to start the project.
+ 
+ 
  1.
         GET: get info from DB tables and id reserch.
         USE GET request

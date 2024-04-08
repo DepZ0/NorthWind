@@ -1,16 +1,20 @@
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { CustomerModel, customers } from "../schema";
+import { customers } from "../schema";
 import { eq, sql } from "drizzle-orm";
+import { Pool } from "pg";
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 export class CustomersDb {
   constructor(private db: NodePgDatabase) {}
   public getAllCustomers = async (page: number, pageSize: number) => {
     const offset = (page - 1) * pageSize;
 
-    const startDate = new Date().getTime();
     const customers_db = await this.db.select().from(customers).limit(pageSize).offset(offset);
-    const endDate = new Date().getTime();
-    const duration = endDate - startDate;
+
+    const query = await this.db.select().from(customers).limit(pageSize).offset(offset).toSQL();
+    const res = await pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
+    const duration = res.rows[3]["QUERY PLAN"].replace("Execution Time: ", "");
 
     const result = await this.db.select({ count: sql`COUNT(*)` }).from(customers);
     const count = Number(result[0].count);
@@ -25,10 +29,11 @@ export class CustomersDb {
   };
 
   public getCustomerById = async (id: string) => {
-    const startDate = new Date().getTime();
     const customerId = await this.db.select().from(customers).where(eq(customers.customerId, id));
-    const endDate = new Date().getTime();
-    const duration = endDate - startDate;
+
+    const query = await this.db.select().from(customers).where(eq(customers.customerId, id)).toSQL();
+    const res = await pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
+    const duration = res.rows[4]["QUERY PLAN"].replace("Execution Time: ", "");
 
     const customerIdQuery = await this.db.select().from(customers).where(eq(customers.customerId, id)).toSQL().sql;
 

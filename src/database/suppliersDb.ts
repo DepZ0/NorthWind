@@ -1,18 +1,22 @@
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { supplies } from "../schema";
 import { eq, sql } from "drizzle-orm";
+import { Pool } from "pg";
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 export class SuppliersDb {
   constructor(private db: NodePgDatabase) {}
   public getAllSuppliers = async (page: number, pageSize: number) => {
     const offset = (page - 1) * pageSize;
 
-    const startDate = new Date().getTime();
     const suppliers = await this.db.select().from(supplies).limit(pageSize).offset(offset);
-    const endDate = new Date().getTime();
-    const duration = endDate - startDate;
 
-    const result = await this.db.select({ count: sql`COUNT(*)` }).from(supplies); // SELECT COUNT(*) FROM supplies
+    const query = await this.db.select().from(supplies).limit(pageSize).offset(offset).toSQL();
+    const res = await pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
+    const duration = res.rows[3]["QUERY PLAN"].replace("Execution Time: ", "");
+
+    const result = await this.db.select({ count: sql`COUNT(*)` }).from(supplies);
     const count = Number(result[0].count);
     const countOfPages = Math.ceil(count / pageSize);
 
@@ -24,10 +28,11 @@ export class SuppliersDb {
   };
 
   public getSupllierById = async (id: number) => {
-    const startDate = new Date().getTime();
     const suplierId = await this.db.select().from(supplies).where(eq(supplies.supplierId, id));
-    const endDate = new Date().getTime();
-    const duration = endDate - startDate;
+
+    const query = await this.db.select().from(supplies).where(eq(supplies.supplierId, id)).toSQL();
+    const res = await pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
+    const duration = res.rows[4]["QUERY PLAN"].replace("Execution Time: ", "");
 
     const supplierIdQuery = await this.db.select().from(supplies).where(eq(supplies.supplierId, id)).toSQL().sql;
 
