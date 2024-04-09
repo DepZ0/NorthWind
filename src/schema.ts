@@ -2,13 +2,13 @@ import { pgTable, integer, varchar, real } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
 export const categories = pgTable("categories", {
-  categoryId: integer("CategoryID"),
+  categoryId: integer("CategoryID"), //in sql you should use customer_id format. Use serial here and it should be primary key (read about it)
   categoryName: varchar("CategoryName", { length: 50 }),
   description: varchar("Description", { length: 50 }),
 });
 
 export const customers = pgTable("customers", {
-  customerId: varchar("CustomerID", { length: 50 }),
+  customerId: varchar("CustomerID", { length: 50 }), // serial, primary key
   companyName: varchar("CompanyName", { length: 50 }),
   contactName: varchar("ContactName", { length: 50 }),
   contactTitle: varchar("ContactTitle", { length: 50 }),
@@ -22,7 +22,7 @@ export const customers = pgTable("customers", {
 });
 
 export const employees = pgTable("employees", {
-  employeeId: varchar("EmployeeID", { length: 50 }),
+  employeeId: varchar("EmployeeID", { length: 50 }), // serial, primary key
   lastName: varchar("LastName", { length: 50 }),
   firstName: varchar("FirstName", { length: 50 }),
   title: varchar("Title", { length: 50 }),

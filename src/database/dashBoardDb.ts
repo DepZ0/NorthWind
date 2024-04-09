@@ -2,6 +2,7 @@ import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { CustomerModel, customers } from "../schema";
 import { eq, sql } from "drizzle-orm";
 
+// If it is not needed - delete it
 export class DashBoardDb {
   constructor(private db: NodePgDatabase) {}
   //   public getAllCustomers = async (page: number, pageSize: number): Promise<CustomerModel[]> => {

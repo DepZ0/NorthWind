@@ -59,7 +59,6 @@ async function main() {
   const dashBoardService = new DashBoardService(dashBoardDb);
   const dashBoardController = new DashBoardController(dashBoardService);
 
-  //---
   const app = new App(3000, [
     suppliersController,
     productsController,
