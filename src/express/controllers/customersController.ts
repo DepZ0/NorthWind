@@ -22,6 +22,8 @@ export class CustomersController extends Controller {
   };
 
   private getById = async (req, res) => {
+    // you should add validation on id
+    // you can use valibot, zod or typebox. Or whatever you will find
     const id = String(req.params.id).toUpperCase();
     const customer = await this.customersService.getCustomerById(id);
     return res.status(200).json(customer);

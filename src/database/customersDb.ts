@@ -3,6 +3,7 @@ import { customers } from "../schema";
 import { eq, sql } from "drizzle-orm";
 import { Pool } from "pg";
 
+// no need to init pool here. You already have it in index.ts. Just pass it to CustoersDb like you did with "db"
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 export class CustomersDb {
@@ -10,6 +11,8 @@ export class CustomersDb {
   public getAllCustomers = async (page: number, pageSize: number) => {
     const offset = (page - 1) * pageSize;
 
+    // use camelCase "customersDb". You can call it just "customers"
+    // add order by (described in searchDb why you need it)
     const customers_db = await this.db.select().from(customers).limit(pageSize).offset(offset);
 
     const query = await this.db.select().from(customers).limit(pageSize).offset(offset).toSQL();
@@ -20,6 +23,10 @@ export class CustomersDb {
     const count = Number(result[0].count);
     const countOfPages = Math.ceil(count / pageSize);
 
+    /**
+     *  you already have this value on 15 line.
+     *  check it everywhere
+     */
     const customersQuery = this.db.select().from(customers).limit(pageSize).offset(offset).toSQL().sql;
 
     const timestamp = new Date().getTime();

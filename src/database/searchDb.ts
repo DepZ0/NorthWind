@@ -10,6 +10,20 @@ export class SearchDb {
   public getAllProductSearchResult = async (productNameForSearch: string, page: number, pageSize: number) => {
     const offset = (page - 1) * pageSize;
 
+    /**
+     * You should add order by
+     * Sometimes this query can return values in different order
+     *
+     * Like this:
+     * 1. product1       1. product2
+     * 2. product2       2. product1
+     * 3. product3       3. product4
+     * 4. product4       4. product3
+     * 5. product5       5. product5
+     *
+     * If you will add order by - it will always return same order and you can add pagination to it
+     */
+
     const searchProducts = await this.db
       .select()
       .from(products)

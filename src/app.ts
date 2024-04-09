@@ -8,6 +8,7 @@ export class App {
 
     this.initializeMiddlewares();
     this.initializeControllers();
+    // you should add error handler. What if your route will crash? All service will stop?
   }
 
   private initializeMiddlewares = () => {
