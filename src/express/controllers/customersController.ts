@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { Controller } from "./Controller";
 import { CustomersService } from "../services/customersSevice";
+import { z } from "zod";
 
 export class CustomersController extends Controller {
   constructor(private customersService: CustomersService) {
@@ -21,8 +22,17 @@ export class CustomersController extends Controller {
     return res.status(200).json(suppliers);
   };
 
+  idSchema = z.string();
+
   private getById = async (req, res) => {
     const id = String(req.params.id).toUpperCase();
+
+    const parsed = this.idSchema.safeParse(id);
+
+    if (!parsed.success) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
     const customer = await this.customersService.getCustomerById(id);
     return res.status(200).json(customer);
   };

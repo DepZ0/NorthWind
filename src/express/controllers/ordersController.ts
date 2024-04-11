@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { Controller } from "./Controller";
 import { OrdersService } from "../services/ordersService";
+import { z } from "zod";
 
 export class OrdersController extends Controller {
   constructor(private ordersService: OrdersService) {
@@ -19,8 +20,17 @@ export class OrdersController extends Controller {
     return res.status(200).json(orders);
   };
 
-  private getById = async (req, res) => {
+  idSchema = z.number();
+
+  private getById: RequestHandler = async (req, res) => {
     const id = Number(req.params.id);
+
+    const parsed = this.idSchema.safeParse(id);
+
+    if (!parsed.success) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
     const order = await this.ordersService.getOrderById(id);
     return res.status(200).json(order);
   };

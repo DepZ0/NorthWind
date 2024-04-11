@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS "categories" (
-	"CategoryID" integer,
+	"CategoryID" integer PRIMARY KEY NOT NULL,
 	"CategoryName" varchar(50),
 	"Description" varchar(50)
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "customers" (
-	"CustomerID" varchar(50),
+	"CustomerID" integer PRIMARY KEY NOT NULL,
 	"CompanyName" varchar(50),
 	"ContactName" varchar(50),
 	"ContactTitle" varchar(50),
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "customers" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "employees" (
-	"EmployeeID" varchar(50),
+	"EmployeeID" integer PRIMARY KEY NOT NULL,
 	"LastName" varchar(50),
 	"FirstName" varchar(50),
 	"Title" varchar(50),
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS "employeeterritories" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orderdetails" (
-	"OrderID" integer,
+	"OrderID" integer PRIMARY KEY NOT NULL,
 	"ProductID" integer,
 	"UnitPrice" integer,
 	"Quantity" integer,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "orderdetails" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orders" (
-	"OrderID" integer,
+	"OrderID" integer PRIMARY KEY NOT NULL,
 	"CustomerID" varchar(50),
 	"EmployeeID" integer,
 	"OrderDate" varchar(50),
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS "orders" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "products" (
-	"ProductID" integer,
+	"ProductID" integer PRIMARY KEY NOT NULL,
 	"ProductName" varchar(50),
 	"SupplierID" integer,
 	"CategoryID" integer,
@@ -81,18 +81,18 @@ CREATE TABLE IF NOT EXISTS "products" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "regions" (
-	"RegionID" integer,
+	"RegionID" integer PRIMARY KEY NOT NULL,
 	"RegionDescription" varchar(50)
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "shippers" (
-	"ShipperID" integer,
+	"ShipperID" integer PRIMARY KEY NOT NULL,
 	"CompanyName" varchar(50),
 	"Phone" varchar(50)
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "supplies" (
-	"SupplierID" integer,
+	"SupplierID" integer PRIMARY KEY NOT NULL,
 	"CompanyName" varchar(50),
 	"ContactName" varchar(50),
 	"ContactTitle" varchar(50),
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS "supplies" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "territories" (
-	"TerritoryID" integer,
+	"TerritoryID" integer PRIMARY KEY NOT NULL,
 	"TerritoryDescription" varchar(50),
-	"RegionID" integer
+	"RegionID" integer PRIMARY KEY NOT NULL
 );

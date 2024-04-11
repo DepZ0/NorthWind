@@ -1,5 +1,5 @@
 {
-  "id": "82a21ff6-4b0f-4267-bd26-8b98ff674123",
+  "id": "f76fdc06-82e5-4a7e-a066-69f344903799",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -11,8 +11,8 @@
         "CategoryID": {
           "name": "CategoryID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         },
         "CategoryName": {
           "name": "CategoryName",
@@ -38,9 +38,9 @@
       "columns": {
         "CustomerID": {
           "name": "CustomerID",
-          "type": "varchar(50)",
-          "primaryKey": false,
-          "notNull": false
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
         },
         "CompanyName": {
           "name": "CompanyName",
@@ -114,9 +114,9 @@
       "columns": {
         "EmployeeID": {
           "name": "EmployeeID",
-          "type": "varchar(50)",
-          "primaryKey": false,
-          "notNull": false
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
         },
         "LastName": {
           "name": "LastName",
@@ -243,8 +243,8 @@
         "OrderID": {
           "name": "OrderID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         },
         "ProductID": {
           "name": "ProductID",
@@ -283,8 +283,8 @@
         "OrderID": {
           "name": "OrderID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         },
         "CustomerID": {
           "name": "CustomerID",
@@ -377,8 +377,8 @@
         "ProductID": {
           "name": "ProductID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         },
         "ProductName": {
           "name": "ProductName",
@@ -447,8 +447,8 @@
         "RegionID": {
           "name": "RegionID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         },
         "RegionDescription": {
           "name": "RegionDescription",
@@ -469,8 +469,8 @@
         "ShipperID": {
           "name": "ShipperID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         },
         "CompanyName": {
           "name": "CompanyName",
@@ -497,8 +497,8 @@
         "SupplierID": {
           "name": "SupplierID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         },
         "CompanyName": {
           "name": "CompanyName",
@@ -579,8 +579,8 @@
         "TerritoryID": {
           "name": "TerritoryID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         },
         "TerritoryDescription": {
           "name": "TerritoryDescription",
@@ -591,8 +591,8 @@
         "RegionID": {
           "name": "RegionID",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false
+          "primaryKey": true,
+          "notNull": true
         }
       },
       "indexes": {},

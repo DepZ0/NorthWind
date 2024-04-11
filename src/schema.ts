@@ -1,5 +1,4 @@
 import { pgTable, integer, varchar, real } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
 
 export const categories = pgTable("categories", {
   categoryId: integer("CategoryID"),
