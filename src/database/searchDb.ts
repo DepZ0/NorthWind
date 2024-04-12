@@ -13,7 +13,8 @@ export class SearchDb {
       .from(products)
       .where(ilike(products.productName, `%${productNameForSearch}%`))
       .limit(pageSize)
-      .offset(offset);
+      .offset(offset)
+      .orderBy(products.productId);
 
     const query = await this.db
       .select()
@@ -23,7 +24,14 @@ export class SearchDb {
       .offset(offset)
       .toSQL();
     const res = await this.pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
-    const duration = res.rows[5]["QUERY PLAN"].replace("Execution Time: ", "");
+
+    let duration;
+    for (let row of res.rows) {
+      if (row["QUERY PLAN"].includes("Execution Time: ")) {
+        duration = row["QUERY PLAN"].replace("Execution Time: ", "");
+        break;
+      }
+    }
 
     const timestamp = new Date().getTime();
     const responseQuery = { query: query.sql, timestamp, duration };
@@ -34,7 +42,7 @@ export class SearchDb {
   public getAllCustomersSearchResult = async (customersSearchParams: string, page: number, pageSize: number) => {
     const offset = (page - 1) * pageSize;
 
-    const searchProducts = await this.db
+    const searchCustomers = await this.db
       .select()
       .from(customers)
       .where(
@@ -46,7 +54,8 @@ export class SearchDb {
         )
       )
       .limit(pageSize)
-      .offset(offset);
+      .offset(offset)
+      .orderBy(customers.customerId);
 
     const query = await this.db
       .select()
@@ -63,11 +72,18 @@ export class SearchDb {
       .offset(offset)
       .toSQL();
     const res = await this.pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
-    const duration = res.rows[5]["QUERY PLAN"].replace("Execution Time: ", "");
+
+    let duration;
+    for (let row of res.rows) {
+      if (row["QUERY PLAN"].includes("Execution Time: ")) {
+        duration = row["QUERY PLAN"].replace("Execution Time: ", "");
+        break;
+      }
+    }
 
     const timestamp = new Date().getTime();
     const responseQuery = { query: query.sql, timestamp, duration };
 
-    return { searchProducts, responseQuery };
+    return { searchCustomers, responseQuery };
   };
 }
