@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { App } from "./app";
 import "dotenv/config";
-import { SuppliersDb } from "./database/suppliersDB";
+import { SuppliersDb } from "./database/suppliersDb";
 import { SuppliersService } from "./express/services/suppliersService";
 import { SuppliersController } from "./express/controllers/suppliersController";
 import { ProductsDb } from "./database/productsDb";
