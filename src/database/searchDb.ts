@@ -2,6 +2,7 @@ import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { customers, products } from "../schema";
 import { or, ilike } from "drizzle-orm";
 import { Pool } from "pg";
+import { getExecutionTime } from "../util/query";
 
 export class SearchDb {
   constructor(private db: NodePgDatabase, private pool: Pool) {}
@@ -25,13 +26,7 @@ export class SearchDb {
       .toSQL();
     const res = await this.pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
 
-    let duration;
-    for (let row of res.rows) {
-      if (row["QUERY PLAN"].includes("Execution Time: ")) {
-        duration = row["QUERY PLAN"].replace("Execution Time: ", "");
-        break;
-      }
-    }
+    const duration = getExecutionTime(res);
 
     const timestamp = new Date().getTime();
     const responseQuery = { query: query.sql, timestamp, duration };
@@ -73,13 +68,7 @@ export class SearchDb {
       .toSQL();
     const res = await this.pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
 
-    let duration;
-    for (let row of res.rows) {
-      if (row["QUERY PLAN"].includes("Execution Time: ")) {
-        duration = row["QUERY PLAN"].replace("Execution Time: ", "");
-        break;
-      }
-    }
+    const duration = getExecutionTime(res);
 
     const timestamp = new Date().getTime();
     const responseQuery = { query: query.sql, timestamp, duration };

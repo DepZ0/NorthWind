@@ -15,6 +15,7 @@ export class EmployeesController extends Controller {
   };
 
   private getAll: RequestHandler = async (req, res) => {
+    throw Error();
     const page = req.query.page ? Number(req.query.page) : 1;
     const employees = await this.employeesService.getAllEmployees(page);
     return res.status(200).json(employees);

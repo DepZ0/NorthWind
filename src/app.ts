@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import { Controller } from "./express/controllers/Controller";
 import { ZodError } from "zod";
+import "express-async-errors";
 
 export class App {
   public app: Application;
