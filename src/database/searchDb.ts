@@ -17,6 +17,17 @@ export class SearchDb {
       .offset(offset)
       .orderBy(products.productId);
 
+    const databaseResult = searchProducts.map((serachResult) => {
+      return {
+        ...serachResult,
+        supplierId: undefined,
+        categoryId: undefined,
+        unitsOnOrder: undefined,
+        reorderLevel: undefined,
+        discontinued: undefined,
+      };
+    });
+
     const query = await this.db
       .select()
       .from(products)
@@ -31,7 +42,7 @@ export class SearchDb {
     const timestamp = new Date().getTime();
     const responseQuery = { query: query.sql, timestamp, duration };
 
-    return { searchProducts, responseQuery };
+    return { databaseResult, responseQuery };
   };
 
   public getAllCustomersSearchResult = async (customersSearchParams: string, page: number, pageSize: number) => {
@@ -52,6 +63,18 @@ export class SearchDb {
       .offset(offset)
       .orderBy(customers.customerId);
 
+    const databaseResult = searchCustomers.map((searchResult) => {
+      return {
+        ...searchResult,
+        address: undefined,
+        city: undefined,
+        region: undefined,
+        postalCode: undefined,
+        country: undefined,
+        fax: undefined,
+      };
+    });
+
     const query = await this.db
       .select()
       .from(customers)
@@ -73,6 +96,6 @@ export class SearchDb {
     const timestamp = new Date().getTime();
     const responseQuery = { query: query.sql, timestamp, duration };
 
-    return { searchCustomers, responseQuery };
+    return { databaseResult, responseQuery };
   };
 }

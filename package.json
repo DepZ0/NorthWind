@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --enable-source-maps dist/main.js",
+    "start": "tsx src/index.ts",
     "build:prod": "esbuild src/index.ts --bundle --sourcemap=inline --platform=node --outfile=dist/main.js",
     "migrate": "drizzle-kit generate:pg"
   },

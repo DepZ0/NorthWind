@@ -10,6 +10,9 @@ export class EmployeesDb {
     const offset = (page - 1) * pageSize;
 
     const employeesDb = await this.db.select().from(employees).limit(pageSize).offset(offset);
+    const databaseResult = employeesDb.map((employees) => {
+      return { ...employees, region: undefined };
+    });
 
     const query = this.db.select().from(employees).limit(pageSize).offset(offset).toSQL();
     const res = await this.pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
@@ -22,11 +25,14 @@ export class EmployeesDb {
     const timestamp = new Date().getTime();
     const responseQuery = { query: query.sql, timestamp, duration };
 
-    return { employeesDb: employeesDb, responseQuery, page: page, pages: countOfPages, total: count };
+    return { employeesDb: databaseResult, responseQuery, page: page, pages: countOfPages, total: count };
   };
 
   public getEmployeeById = async (id: string) => {
     const employeeId = await this.db.select().from(employees).where(eq(employees.employeeId, id));
+    const databaseResult = employeeId.map((employees) => {
+      return { ...employees, region: undefined };
+    });
 
     const query = this.db.select().from(employees).where(eq(employees.employeeId, id)).toSQL();
     const res = await this.pool.query(`EXPLAIN ANALYZE ${query.sql}`, query.params);
@@ -35,6 +41,6 @@ export class EmployeesDb {
     const timestamp = new Date().getTime();
     const responseQuery = { query: query.sql, timestamp, duration };
 
-    return { employeeId, responseQuery };
+    return { databaseResult, responseQuery };
   };
 }
